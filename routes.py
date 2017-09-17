@@ -6,16 +6,29 @@ from werkzeug import generate_password_hash, check_password_hash
 import geocoder
 import urllib.request
 import json
+import os
+import psycopg2
+from urllib import parse
 
 
 app = Flask(__name__)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://localhost/learningflask'
-# heroku = Heroku(app)
-db = SQLAlchemy(app)
-db.init_app(app)
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://localhost/learningflask'  
+heroku = Heroku(app)
+# db = SQLAlchemy(app)
 
-# from models import User, Place
+parse.uses_netloc.append("postgres")
+url = parse.urlparse(os.environ["postgres://iodxqpjbhqezyh:2c73cadfdedc83d99790be59f9233fc172543cca1703752bfd5bc01cce2fc341@ec2-107-20-188-239.compute-1.amazonaws.com:5432/dho66dcqfi89j"])
+
+db = psycopg2.connect(
+    database=url.path[1:],
+    user=url.username,
+    password=url.password,
+    host=url.hostname,
+    port=url.port
+)
+
+db.init_app(app)
 
 class User(db.Model):
     __tablename__ = 'users'
