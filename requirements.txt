@@ -18,6 +18,6 @@ requests==2.18.4
 Routes==2.4.1
 six==1.10.0
 SQLAlchemy==1.1.14
-urllib3==1.22
+urllib3==1.26.5
 Werkzeug==0.12.2
 WTForms==2.1
